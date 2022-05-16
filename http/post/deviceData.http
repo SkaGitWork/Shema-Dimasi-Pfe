@@ -1,0 +1,7 @@
+POST http://localhost:8001/deviceData/create HTTP/1.1
+content-type: application/json
+
+{
+"deviceParent": "Device 1",
+"image": "Image 1-4"
+}

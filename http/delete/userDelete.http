@@ -1,0 +1,8 @@
+###
+DELETE http://localhost:8001/user/delete/doctorFromContacts HTTP/1.1
+content-type: application/json
+
+{
+"username": "Patient 1",
+"doctor": "Docteur 1"
+}

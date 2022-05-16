@@ -1,0 +1,2 @@
+export const SEARCH_INPUT = "SEARCH_INPUT"
+export const GET_DOCTORS = "GET_DOCTORS"

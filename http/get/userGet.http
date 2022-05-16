@@ -1,0 +1,18 @@
+GET http://localhost:8001/user/getDoctors HTTP/1.1
+content-type: application/json
+
+###
+GET http://localhost:8001/user/getPatients HTTP/1.1
+content-type: application/json
+
+###
+GET http://localhost:8001/user/getDoctorContacts?username=Patient 1 HTTP/1.1
+content-type: application/json
+
+###
+GET http://localhost:8001/user/getPatientContacts?username=Docteur 1 HTTP/1.1
+content-type: application/json
+
+###
+GET http://localhost:8001/patientList/getPatients HTTP/1.1
+content-type: application/json
