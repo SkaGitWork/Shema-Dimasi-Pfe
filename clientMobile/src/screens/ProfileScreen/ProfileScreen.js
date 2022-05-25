@@ -8,19 +8,18 @@ const ProfileScreen = ({ navigation }) => {
   const [fetchedUserData, setFetchedUserData] = useState()
   const [user, setUser] = useState()
 
-  useEffect(async () => {
-    setUser(JSON.parse(await AsyncStorage.getItem("user")))
-  }, [])
+ useEffect( () => {
 
-  useEffect(async () => {
-    user && setFetchedUserData(await Axios.get(`/user/fetch/${user.id}`))
-  }, [user])
+  setUser(JSON.parse(await AsyncStorage.getItem("user")))
+
+  setFetchedUserData(await Axios.get(`/user/fetch/${user.id}`)
+}, [])
 
   const fetchUserData = async () => {}
 
   return (
     <View style={styles.container}>
-      <Text style={styles.InfoText}>Nom d'utilisateur : {user?.username} </Text>
+      <Text style={styles.InfoText}>Nom d'utilisateur : {fetchedUserData?.name} </Text>
 
       <View style={styles.thresholdContainer}>
         <Text style={styles.InfoText}>

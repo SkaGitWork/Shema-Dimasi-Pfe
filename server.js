@@ -12,6 +12,7 @@ import userRouter from "./routes/user.js"
 import deviceRouter from "./routes/device.js"
 import messageRouter from "./routes/message.js"
 import deviceDataRouter from "./routes/deviceData.js"
+import customDataRouter from "./routes/custom.js"
 
 // Doctor and patient login
 login(app)
@@ -31,3 +32,4 @@ app.use(userRouter)
 app.use(deviceRouter)
 app.use(messageRouter)
 app.use(deviceDataRouter)
+app.use(customDataRouter)

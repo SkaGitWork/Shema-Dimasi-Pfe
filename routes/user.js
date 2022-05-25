@@ -28,6 +28,8 @@ import {
   addUser,
   deleteUser,
   fetchUser,
+  signUp,
+  sendInformations,
 } from "./../controllers/user/userController.js"
 
 router.get("/user/accountSetting/getUser/:id", getUser)
@@ -45,11 +47,13 @@ router.post("/savePushToken", savePushToken)
 router.post("/getPushToken", getPushToken)
 router.post("/changePassword", changePassword)
 
+
 router.put("/user/accountSetting/modify/:id", accountSettingModify)
 
 router.post("/user/addDoctorToContact", addDoctorToContact)
 router.post("/user/addPatientToContact", addPatientToContact)
 router.post("/user/patientList/modifyPatient/:id", modifyPatient)
+router.post("/user/signUp", signUp)
 
 router.delete("/user/delete/doctorFromContacts", deleteDoctorFromContacts)
 router.delete("/user/delete/patientFromContacts", deletePatientFromContacts)
@@ -59,5 +63,8 @@ router.delete("/user/deleteUser/:id", deleteUser)
 router.patch("/user/modifyUser/:id", modifyUser)
 
 router.get("/user/fetch/:id", fetchUser)
+router.get("/user/getInformations/:id", fetchUser)
 
+
+router.patch("/user/sendInformations", sendInformations)
 export default router

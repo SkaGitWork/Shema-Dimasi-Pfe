@@ -78,3 +78,27 @@ export const fetchUser = async (req, res) => {
     )
   )
 }
+
+export const signUp = async (req, res) => {
+  let count = await User.countDocuments({ email: req.body.email })
+  if (count > 0) return res.status(500).send("Email already exists.")
+
+  req.body.password = await bcrypt.hash(req.body.password, 10)
+  req.body.email = req.body.email.toLowerCase().trim()
+  User.create(req.body, (err, data) => {
+    if (err) {
+      res.status(500).send("Erreur Serveur.")
+    } else {
+      res.status(201).send({ _id: data._id })
+    }
+  })
+}
+
+export const sendInformations = async (req, res) => {
+  const { id } = req.body
+  console.log(req.body)
+
+  await User.updateOne({ _id: id }, req.body)
+
+  res.send("Update Success.")
+}

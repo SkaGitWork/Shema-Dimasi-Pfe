@@ -1,4 +1,4 @@
-import React, { useState } from "react"
+import React, { useEffect, useState } from "react"
 import { TouchableOpacity, StyleSheet, View } from "react-native"
 import { Text } from "react-native-paper"
 import Background from "../components/Background"
@@ -7,11 +7,11 @@ import Header from "../components/Header"
 import Button from "../components/Button"
 import { theme } from "../core/theme"
 import { emailValidator } from "../helpers/emailValidator"
-import { passwordValidator } from "../helpers/passwordValidator"
+import { passwordValidator } from "../helpers/passwordConfirmValidator"
 import BackButton from "../components/BackButton"
 import TextInput from "../components/TextInput"
 import { loginRequest } from "./../api/requests"
-import Axios from './../api/axios';
+import Axios from "./../api/axios"
 import AsyncStorage from "@react-native-async-storage/async-storage"
 
 export default function LoginScreen({ navigation }) {
@@ -19,36 +19,41 @@ export default function LoginScreen({ navigation }) {
   const [password, setPassword] = useState({ value: "", error: "" })
   const [feedback, setFeedback] = useState("")
 
-  const onLoginPressed = async() => {
+
+  const onLoginPressed =  () => {
     const emailError = emailValidator(email.value)
     const passwordError = passwordValidator(password.value)
     if (emailError || passwordError) {
       setEmail({ ...email, error: emailError })
       setPassword({ ...password, error: passwordError })
-      // return
+      return
     }
 
-   await Axios.post("/authentification/login", {
-     email: email.value,
-     password: password.value,
-   })
-     .then(async (res) => {
-           await AsyncStorage.setItem('user', JSON.stringify(res.data))
+     Axios.post("/authentification/login", {
+      email: email.value,
+      password: password.value,
+    })
+      .then(async (res) => {
+        await AsyncStorage.setItem("user", JSON.stringify(res.data))
 
-       navigation.reset({
-         index: 0,
-         routes: [{ name: "Tabs" }],
-       })
-     })
-     .catch((err) => {
-       setFeedback(err.response.data)
-       return err.response.data
-     })
-    
+        navigation.reset({
+          index: 0,
+          routes: [{ name: "Edit" }],
+        })
+      })
+      .catch((err) => {
+        setFeedback(err.response.data)
+      })
+  }
+
+  const fastLogin = async () => {
+    setEmail({ value: "shemadimassi@icloud.com" })
+    setPassword({ value: "1111" })
+
   }
 
   return (
-    <View  style={styles.container}>
+    <View style={styles.container}>
       <BackButton goBack={navigation.goBack} />
       <Logo />
       {/* <Header>Login</Header> */}
@@ -81,9 +86,12 @@ export default function LoginScreen({ navigation }) {
         </TouchableOpacity>
       </View> */}
 
-      <Text  style={{color: 'red'}}>{feedback}</Text>
+      <Text style={{ color: "red" }}>{feedback}</Text>
       <Button mode="contained" onPress={onLoginPressed}>
         Login
+      </Button>
+      <Button mode="contained" onPress={fastLogin}>
+        Login Test
       </Button>
       {/* <View style={styles.row}>
         <Text>Don’t have an account? </Text>
@@ -117,10 +125,10 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     padding: 20,
-    width: '100%',
+    width: "100%",
     maxWidth: 340,
-    alignSelf: 'center',
-    alignItems: 'center',
-    justifyContent: 'center',
+    alignSelf: "center",
+    alignItems: "center",
+    justifyContent: "center",
   },
 })

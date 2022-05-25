@@ -62,9 +62,9 @@ export default function Login(app) {
 
     function sendAccessInformations(accessToken, refreshToken) {
       return res.send({
-        id: user._id,
-        role: user.role,
-        username: user.username,
+        _id: user._id,
+        email: user.email,
+        name: user.name,
         accessToken: accessToken,
         refreshToken: refreshToken,
       })

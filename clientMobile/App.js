@@ -10,8 +10,9 @@ import ResetPasswordScreen from "./src/screens/ResetPasswordScreen"
 import Tabs from "./src/navigation/Tabs"
 import { createDrawerNavigator } from "@react-navigation/drawer"
 import { DrawerContent } from "./src/navigation/DrawerContent"
-import MessagesScreen from "./src/screens/MessagesScreen"
 import { createStackNavigator } from "@react-navigation/stack"
+import HomeScreen from './src/screens/HomeScreen';
+import EditScreen from './src/screens/EditScreen';
 const Drawer = createDrawerNavigator()
 
 export default function App() {
@@ -19,9 +20,20 @@ export default function App() {
     <Provider theme={theme}>
       <NavigationContainer>
         <Drawer.Navigator
-          initialRouteName="Tabs"
+          
+          initialRouteName="Edit"
+          // screenOptions={{
+          // }}
           screenOptions={{
-            headerShown: false,
+            headerShown: true,
+
+            headerStyle: {
+              backgroundColor: "#4bccc7",
+            },
+            headerTintColor: "#fff",
+            headerTitleStyle: {
+              fontWeight: "bold",
+            },
           }}
           drawerContent={(props) => <DrawerContent {...props} />}
         >
@@ -34,7 +46,8 @@ export default function App() {
           />
           <Drawer.Screen name="Tabs" component={Tabs} />
 
-          <Drawer.Screen name="MessagesScreen" component={MessagesScreen} />
+          <Drawer.Screen name="Profile" component={HomeScreen} />
+          <Drawer.Screen name="Edit" component={EditScreen} />
         </Drawer.Navigator>
       </NavigationContainer>
     </Provider>

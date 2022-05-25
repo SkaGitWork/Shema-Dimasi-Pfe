@@ -8,48 +8,76 @@ import DatePicker from "react-native-datepicker"
 // import DateTimePicker from "@react-native-community/datetimepicker"
 import moment from "moment"
 import Axios from "../api/axios"
-const EditScreen = () => {
-  const [checked, setChecked] = React.useState("first")
-  const [modifyToggle, setModifyToggle] = useState(false)
+import AsyncStorage from "@react-native-async-storage/async-storage"
+
+const EditScreen = ({ navigation }) => {
+  const [feedback, setFeedback] = useState()
+  const [date, setDate] = useState(moment().format("YYYY-MM-DD"))
+  const [formData, setFormData] = useState({})
   // const [date, setDate] = useState('09-10-2020');
 
-  const [formData, setFormData] = useState({
-    name : "",
-    birthday : "",
-    weight : "",
-    height : "",
-    gender: "man",
-    smoker: false,
-    drinker: false,
-    sportive: false,
-    cholesterol: false,
-    glucose: false,
-  })
+  useEffect(async () => {
+    const currentUser = JSON.parse(await AsyncStorage.getItem("user"))
 
-  const submit = () => {
-    return
-    Axios.post("user/sendInformations")
+    const { data: userData } = await Axios.post(`/custom`, {
+      scheme: "user",
+      method: "get",
+      filters: { _id: currentUser._id },
+    })
+
+    setFormData({
+      name: userData.name || "",
+      gender: userData.gender || "",
+      birthday: userData.birthday || "",
+      weight: userData.weight || "",
+      height: userData.height || "",
+      smoker:  userData.smoker || false,
+      drinker:  userData.drinker || false,
+      sportive:  userData.sportive || false,
+      cholesterol:  userData.cholesterol || false,
+      glucose:  userData.glucose || false,
+    })
+  }, [])
+
+
+  const submit = async () => {
+    const currentUser = JSON.parse(await AsyncStorage.getItem("user"))
+
+    Axios.patch("/user/sendInformations", { ...formData, id: currentUser._id })
       .then((res) => {
-        console.log(res.data)
-        return res.data
+        setFeedback(res.data)
+
+        setTimeout(() => {
+          navigation.reset({
+            index: 0,
+            routes: [{ name: "Profile" }],
+          })
+        }, 1000);
       })
       .catch((err) => {
-        console.log(err.response.data)
+        setFeedback(err.response.data)
       })
   }
-  useEffect(() => {
-    console.log(formData)
-  }, [formData])
 
-  const [date, setDate] = useState(moment().format("YYYY-MM-DD"))
 
   return (
     <View style={styles.container}>
-
-      <TextInput style={{ height: 40 }} label="Name" returnKeyType="next" />
+      <TextInput
+        style={{ height: 40 }}
+        label="Name"
+        returnKeyType="next"
+        value={formData.name}
+        onChangeText={(text) => setFormData({ ...formData, name: text })}
+      />
 
       {radioButtons()}
-      <View style={{ flexDirection: "row", alignItems: "center", marginVertical : 5 }}>
+      <View
+        style={{
+          flexDirection: "row",
+          alignItems: "center",
+          marginVertical: 5,
+        }}
+      >
         <Text>Birthday : </Text>
         {datePicker()}
       </View>
@@ -57,12 +85,13 @@ const EditScreen = () => {
       {textInput({ keyboardType: "numeric", label: "Height", value: "height" })}
       {textInput({ keyboardType: "numeric", label: "Weight", value: "weight" })}
 
-
       {checkBox({ text: "Smoker ?", value: "smoker" })}
       {checkBox({ text: "Drinker ?", value: "drinker" })}
       {checkBox({ text: "Sportive ?", value: "sportive" })}
       {checkBox({ text: "Cholesterol ?", value: "cholesterol" })}
       {checkBox({ text: "Glucose ?", value: "glucose" })}
+
+      <Text  style={{textAlign: "center"}}>{feedback} </Text>
 
       <Button mode="contained" onPress={submit}>
         Submit
@@ -71,18 +100,22 @@ const EditScreen = () => {
   )
 
   function radioButtons() {
-    return <View style={{ flexDirection: "row", alignItems: "center" }}>
-      <Text>Man</Text>
-      <RadioButton
-        value="man"
-        status={formData.gender === "man" ? "checked" : "unchecked"}
-        onPress={() => setFormData({ ...formData, gender: "man" })} />
-      <Text>Woman</Text>
-      <RadioButton
-        value="woman"
-        status={formData.gender === "woman" ? "checked" : "unchecked"}
-        onPress={() => setFormData({ ...formData, gender: "woman" })} />
-    </View>
+    return (
+      <View style={{ flexDirection: "row", alignItems: "center" }}>
+        <Text>Man</Text>
+        <RadioButton
+          value="man"
+          status={formData.gender === "Man" ? "checked" : "unchecked"}
+          onPress={() => setFormData({ ...formData, gender: "Man" })}
+        />
+        <Text>Woman</Text>
+        <RadioButton
+          value="woman"
+          status={formData.gender === "Woman" ? "checked" : "unchecked"}
+          onPress={() => setFormData({ ...formData, gender: "Woman" })}
+        />
+      </View>
+    )
   }
 
   function textInput({ keyboardType, label, value }) {
@@ -91,6 +124,8 @@ const EditScreen = () => {
         style={{ height: 40 }}
         keyboardType={keyboardType}
         label={label}
+        value={formData[value]}
+
         returnKeyType="next"
         onChangeText={(text) => {
           setFormData({ ...formData, [value]: text })
@@ -117,7 +152,7 @@ const EditScreen = () => {
   function datePicker() {
     return (
       <DatePicker
-        style={{ flex:1 }}
+        style={{ flex: 1 }}
         date={date} //initial date from state
         mode="date" //The enum of date, datetime and time
         placeholder="Birthday"
@@ -130,20 +165,17 @@ const EditScreen = () => {
             left: 0,
             top: 4,
             // height: '80%',
-
           },
           dateInput: {
             marginLeft: 36,
           },
           dateText: {
-            color: 'black',
-            
+            color: "black",
           },
           dateInput: {
-            backgroundColor: 'white',
-            borderColor: '#00000080'
-            
-          }
+            backgroundColor: "white",
+            borderColor: "#00000080",
+          },
         }}
         onDateChange={(date) => {
           setDate(date)
@@ -166,3 +198,7 @@ const styles = StyleSheet.create({
     // justifyContent: "center",
   },
 })
+
+function capitalizeFirstLetter(string) {
+  return string.charAt(0).toUpperCase() + string.slice(1);
+}
