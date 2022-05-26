@@ -19,8 +19,7 @@ export default function LoginScreen({ navigation }) {
   const [password, setPassword] = useState({ value: "", error: "" })
   const [feedback, setFeedback] = useState("")
 
-
-  const onLoginPressed =  () => {
+  const onLoginPressed = () => {
     const emailError = emailValidator(email.value)
     const passwordError = passwordValidator(password.value)
     if (emailError || passwordError) {
@@ -29,7 +28,7 @@ export default function LoginScreen({ navigation }) {
       return
     }
 
-     Axios.post("/authentification/login", {
+    Axios.post("/authentification/login", {
       email: email.value,
       password: password.value,
     })
@@ -38,7 +37,7 @@ export default function LoginScreen({ navigation }) {
 
         navigation.reset({
           index: 0,
-          routes: [{ name: "Edit" }],
+          routes: [{ name: "Profile" }],
         })
       })
       .catch((err) => {
@@ -49,12 +48,18 @@ export default function LoginScreen({ navigation }) {
   const fastLogin = async () => {
     setEmail({ value: "shemadimassi@icloud.com" })
     setPassword({ value: "1111" })
-
   }
 
   return (
     <View style={styles.container}>
-      <BackButton goBack={navigation.goBack} />
+      <BackButton
+        goBack={() =>
+          navigation.reset({
+            index: 0,
+            routes: [{ name: "StartScreen" }],
+          })
+        }
+      />
       <Logo />
       {/* <Header>Login</Header> */}
       <TextInput

@@ -38,11 +38,11 @@ const HomeScreen = ({ navigation }) => {
       birthday: userData.birthday || "Please choose a birthday.",
       weight: userData.weight || "Please choose a weight.",
       height: userData.height || "Please choose a height.",
-      smoker: false,
-      drinker: false,
-      sportive: false,
-      cholesterol: false,
-      glucose: false,
+      smoker: userData.smoker,
+      drinker: userData.drinker,
+      sportive: userData.sportive,
+      cholesterol: userData.cholesterol,
+      glucose: userData.glucose,
     })
   }, [])
 

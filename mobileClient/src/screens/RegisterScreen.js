@@ -59,7 +59,12 @@ export default function RegisterScreen({ navigation }) {
 
   return (
     <View style={styles.container}>
-      <BackButton goBack={navigation.goBack} />
+      <BackButton goBack={() =>
+          navigation.reset({
+            index: 0,
+            routes: [{ name: "StartScreen" }],
+          })
+        } />
       <Logo />
       {/* <Header>Create Account</Header> */}
       {/* <TextInput

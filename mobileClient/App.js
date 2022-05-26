@@ -21,7 +21,7 @@ export default function App() {
       <NavigationContainer>
         <Drawer.Navigator
           
-          initialRouteName="Edit"
+          initialRouteName="StartScreen"
           // screenOptions={{
           // }}
           screenOptions={{
@@ -37,9 +37,9 @@ export default function App() {
           }}
           drawerContent={(props) => <DrawerContent {...props} />}
         >
-          <Drawer.Screen name="StartScreen" component={StartScreen} />
-          <Drawer.Screen name="LoginScreen" component={LoginScreen} />
-          <Drawer.Screen name="RegisterScreen" component={RegisterScreen} />
+          <Drawer.Screen   options={{headerShown: false}} name="StartScreen" component={StartScreen} />
+          <Drawer.Screen   options={{headerShown: false}} name="LoginScreen" component={LoginScreen} />
+          <Drawer.Screen   options={{headerShown: false}} name="RegisterScreen" component={RegisterScreen} />
           <Drawer.Screen
             name="ResetPasswordScreen"
             component={ResetPasswordScreen}
