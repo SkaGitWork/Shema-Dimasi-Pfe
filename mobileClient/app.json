@@ -38,8 +38,7 @@
       ],
       "useNextNotificationsApi": true
     },
-    "web": {
-    },
+    "web": {},
     "description": ""
   }
 }
