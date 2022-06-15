@@ -12,8 +12,9 @@ import AsyncStorage from "@react-native-async-storage/async-storage"
 
 const EditScreen = ({ navigation }) => {
   const [feedback, setFeedback] = useState()
+  const [date, setDate] = useState(moment().format("YYYY-MM-DD"))
   const [formData, setFormData] = useState({})
-  console.log(formData)
+  // const [date, setDate] = useState('09-10-2020');
 
   useEffect(async () => {
     const currentUser = JSON.parse(await AsyncStorage.getItem("user"))
@@ -30,13 +31,14 @@ const EditScreen = ({ navigation }) => {
       birthday: userData.birthday || "",
       weight: userData.weight || "",
       height: userData.height || "",
-      smoker: userData.smoker || false,
-      drinker: userData.drinker || false,
-      sportive: userData.sportive || false,
-      cholesterol: userData.cholesterol || false,
-      glucose: userData.glucose || false,
+      smoker:  userData.smoker || false,
+      drinker:  userData.drinker || false,
+      sportive:  userData.sportive || false,
+      cholesterol:  userData.cholesterol || false,
+      glucose:  userData.glucose || false,
     })
   }, [])
+
 
   const submit = async () => {
     const currentUser = JSON.parse(await AsyncStorage.getItem("user"))
@@ -50,12 +52,13 @@ const EditScreen = ({ navigation }) => {
             index: 0,
             routes: [{ name: "Profile" }],
           })
-        }, 1000)
+        }, 1000);
       })
       .catch((err) => {
         setFeedback(err.response.data)
       })
   }
+
 
   return (
     <View style={styles.container}>
@@ -88,7 +91,7 @@ const EditScreen = ({ navigation }) => {
       {checkBox({ text: "Cholesterol ?", value: "cholesterol" })}
       {checkBox({ text: "Glucose ?", value: "glucose" })}
 
-      <Text style={{ textAlign: "center" }}>{feedback} </Text>
+      <Text  style={{textAlign: "center"}}>{feedback} </Text>
 
       <Button mode="contained" onPress={submit}>
         Submit
@@ -122,6 +125,7 @@ const EditScreen = ({ navigation }) => {
         keyboardType={keyboardType}
         label={label}
         value={formData[value]}
+
         returnKeyType="next"
         onChangeText={(text) => {
           setFormData({ ...formData, [value]: text })
@@ -149,7 +153,7 @@ const EditScreen = ({ navigation }) => {
     return (
       <DatePicker
         style={{ flex: 1 }}
-        date={formData.birthday} //initial date from state
+        date={date} //initial date from state
         mode="date" //The enum of date, datetime and time
         placeholder="Birthday"
         format="YYYY-MM-DD"
@@ -174,7 +178,7 @@ const EditScreen = ({ navigation }) => {
           },
         }}
         onDateChange={(date) => {
-          setFormData({ ...formData, birthday: date })
+          setDate(date)
         }}
       />
     )
@@ -196,5 +200,5 @@ const styles = StyleSheet.create({
 })
 
 function capitalizeFirstLetter(string) {
-  return string.charAt(0).toUpperCase() + string.slice(1)
+  return string.charAt(0).toUpperCase() + string.slice(1);
 }

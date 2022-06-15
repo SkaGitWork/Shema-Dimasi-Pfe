@@ -12,11 +12,7 @@
       [
         "expo-notifications",
         {
-          "color": "#ffffff",
-          "sounds": [
-            "./local/assets/notification-sound.wav",
-            "./local/assets/notification-sound-other.wav"
-          ]
+          "color": "#ffffff"
         }
       ]
     ],
@@ -36,7 +32,8 @@
       "permissions": [
         "NOTIFICATIONS"
       ],
-      "useNextNotificationsApi": true
+      "useNextNotificationsApi": true,
+      "package": "com.shemadimasi"
     },
     "web": {},
     "description": ""

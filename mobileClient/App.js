@@ -1,5 +1,5 @@
 import "react-native-gesture-handler"
-import React from "react"
+import React, { useEffect, useState } from "react"
 import { Provider } from "react-native-paper"
 import { NavigationContainer } from "@react-navigation/native"
 import { theme } from "./src/core/theme"
@@ -13,14 +13,17 @@ import { DrawerContent } from "./src/navigation/DrawerContent"
 import { createStackNavigator } from "@react-navigation/stack"
 import HomeScreen from './src/screens/HomeScreen';
 import EditScreen from './src/screens/EditScreen';
+import BluetoothScreen from "./src/screens/BluetoothScreen"
+
 const Drawer = createDrawerNavigator()
 
 export default function App() {
+
   return (
     <Provider theme={theme}>
       <NavigationContainer>
         <Drawer.Navigator
-          
+
           initialRouteName="StartScreen"
           // screenOptions={{
           // }}
@@ -37,9 +40,10 @@ export default function App() {
           }}
           drawerContent={(props) => <DrawerContent {...props} />}
         >
-          <Drawer.Screen   options={{headerShown: false}} name="StartScreen" component={StartScreen} />
-          <Drawer.Screen   options={{headerShown: false}} name="LoginScreen" component={LoginScreen} />
-          <Drawer.Screen   options={{headerShown: false}} name="RegisterScreen" component={RegisterScreen} />
+          <Drawer.Screen options={{ headerShown: false }} name="StartScreen" component={StartScreen} />
+          <Drawer.Screen options={{ headerShown: false }} name="BluetoothScreen" component={BluetoothScreen} />
+          <Drawer.Screen options={{ headerShown: false }} name="LoginScreen" component={LoginScreen} />
+          <Drawer.Screen options={{ headerShown: false }} name="RegisterScreen" component={RegisterScreen} />
           <Drawer.Screen
             name="ResetPasswordScreen"
             component={ResetPasswordScreen}

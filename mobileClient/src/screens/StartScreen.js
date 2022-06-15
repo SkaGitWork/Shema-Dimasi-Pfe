@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import Background from '../components/Background'
 import Logo from '../components/Logo'
 import Header from '../components/Header'
@@ -8,6 +8,7 @@ import {View, StyleSheet} from 'react-native'
 
 
 export default function StartScreen({ navigation }) {
+
   return (
     <View  style={styles.container}>
       <Logo />
